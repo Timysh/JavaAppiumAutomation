@@ -48,15 +48,21 @@ public class FirstTest {
 
         waitForElementAndSendKeys(
                 By.xpath("//*[contains(@text, 'Search…')]"),
-                "Java",
+                "function",
                 "Cannot find search input",
                 5
 
         );
 
-        waitForElementAndClear(
-                By.id("org.wikipedia:id/search_src_text"),
-                "Cannot find search field",
+        waitForElementPresent(
+                By.xpath("//android.widget.TextView[@text='Functional programming']"),
+                "Article not found",
+                5
+        );
+
+        waitForElementPresent(
+                By.xpath("//android.widget.TextView[@text='Function (mathematics)']"),
+                "Article not found",
                 5
         );
 
@@ -67,8 +73,14 @@ public class FirstTest {
         );
 
         waitForElementNotPresent(
-                By.id("org.wikipedia:id/search_close_btn"),
-                "X is still present on the page",
+                By.xpath("//android.widget.TextView[@text='Functional programming']"),
+                "Article is still displayed",
+                5
+        );
+
+        waitForElementNotPresent(
+                By.xpath("//android.widget.TextView[@text='Function (mathematics)']"),
+                "Article is still displayed",
                 5
         );
 
