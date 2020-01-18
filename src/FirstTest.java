@@ -3,7 +3,11 @@ import io.appium.java_client.android.AndroidDriver;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.URL;
 
@@ -33,8 +37,80 @@ public class FirstTest {
     }
 
     @Test
-    public void firstTest(){
-        System.out.println("First test run");
+    public void testChanelSearch(){
+
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find 'Search Wikipedia' input",
+                5
+        );
+
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text, 'Search…')]"),
+                "Java",
+                "Cannot find search input",
+                5
+
+        );
+
+        waitForElementAndClear(
+                By.id("org.wikipedia:id/search_src_text"),
+                "Cannot find search field",
+                5
+        );
+
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_close_btn"),
+                "Cannot find X to chanel search",
+                5
+        );
+
+        waitForElementNotPresent(
+                By.id("org.wikipedia:id/search_close_btn"),
+                "X is still present on the page",
+                5
+        );
+
+    }
+
+    //Ожидание появления элемента на экране
+    private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds){
+        WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
+        wait.withMessage(error_message + "\n");
+        return wait.until(ExpectedConditions.presenceOfElementLocated(by));
+    }
+
+    //Ожидание появления элемента на экране с 5 секундным ожиданием
+    private WebElement waitForElementPresent(By by, String error_message){
+        return  waitForElementPresent(by, error_message, 5);
+    }
+
+    //Нажатие на найденный элемент
+    private WebElement waitForElementAndClick(By by, String error_message, long timeoutInSeconds){
+        WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
+        element.click();
+        return element;
+    }
+
+    //Ввод какого-либо значения в найденный элемент
+    private WebElement waitForElementAndSendKeys(By by, String value, String error_message, long timeoutInSeconds){
+        WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
+        element.sendKeys(value);
+        return element;
+    }
+
+    //Ожидание отсутствия элемента на экране
+    private Boolean waitForElementNotPresent(By by, String error_message, long timeoutInSeconds){
+        WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
+        wait.withMessage(error_message + "\n");
+        return wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
+    }
+
+    //Очистка содержимого в найденном элементе
+    private WebElement waitForElementAndClear(By by, String error_message, long timeoutInSeconds){
+        WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
+        element.clear();
+        return element;
     }
 
 }
