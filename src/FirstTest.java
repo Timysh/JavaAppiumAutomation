@@ -1,6 +1,7 @@
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -72,6 +73,35 @@ public class FirstTest {
         );
 
     }
+
+    @Test
+    public void testSearchText(){
+
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find 'Search Wikipedia' input",
+                5
+        );
+
+        WebElement article_element = waitForElementPresent(
+                By.id("org.wikipedia:id/search_src_text"),
+                "Cannot find article element",
+                5
+        );
+
+        String text = article_element.getAttribute("text");
+        Assert.assertEquals("Cannot text attribute", "Search…", text);
+
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text, 'Search…')]"),
+                "Java",
+                "Cannot find search input",
+                5
+
+        );
+
+    }
+
 
     //Ожидание появления элемента на экране
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds){
