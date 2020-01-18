@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.URL;
+import java.util.List;
 
 public class FirstTest {
 
@@ -114,6 +115,29 @@ public class FirstTest {
 
     }
 
+    @Test
+    public void testSearchAllArticleOnPage() {
+
+        waitForElementAndClick(By.id("org.wikipedia:id/search_container"),
+                "Cannot find 'Search Wikipedia' input ",
+                5);
+
+        waitForElementPresent(By.xpath("//*[contains(@text, 'Search Wikipedia')]"),
+                "'Search Wikipedia' is not shown",
+                5);
+
+        waitForElementAndSendKeys(By.id("org.wikipedia:id/search_src_text"),
+                "cycle",
+                "Text cannot be send",
+                5);
+
+        List<WebElement> linkList = driver.findElements(By.id("org.wikipedia:id/page_list_item_title"));
+        for(WebElement element: linkList){
+            System.out.println(element.getText());
+            Assert.assertTrue("Cannot text attribute", element.getText().contains("Cycle"));
+        }
+
+    }
 
     //Ожидание появления элемента на экране
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds){
