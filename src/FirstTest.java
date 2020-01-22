@@ -56,7 +56,6 @@ public class FirstTest {
                 "function",
                 "Cannot find search input",
                 5
-
         );
 
         waitForElementPresent(
@@ -80,13 +79,13 @@ public class FirstTest {
         waitForElementNotPresent(
                 By.xpath("//android.widget.TextView[@text='Functional programming']"),
                 "Article is still displayed",
-                5
+                15
         );
 
         waitForElementNotPresent(
                 By.xpath("//android.widget.TextView[@text='Function (mathematics)']"),
                 "Article is still displayed",
-                5
+                15
         );
 
     }
@@ -114,7 +113,6 @@ public class FirstTest {
                 "Java",
                 "Cannot find search input",
                 5
-
         );
 
     }
@@ -420,6 +418,148 @@ public class FirstTest {
 
     }
 
+    @Test
+    public void save2ArticlesToMyListAndDeleteFirstArticle() {
+
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find 'Search Wikipedia' input ",
+                5);
+
+        waitForElementPresent(
+                By.xpath("//*[contains(@text, 'Search Wikipedia')]"),
+                "'Search Wikipedia' is not shown",
+                5);
+
+        waitForElementAndSendKeys(
+                By.id("org.wikipedia:id/search_src_text"),
+                "Java",
+                "Text cannot be send",
+                5);
+
+        waitForElementAndClick(
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']"),
+                "Cannot find 'Java' article",
+                15);
+
+        waitForElementPresent(
+                By.id("org.wikipedia:id/view_page_title_text"),
+                "'Object-oriented programming language' is not shown",
+                20);
+
+        waitForElementAndClick(
+                By.xpath("//android.widget.ImageView[@content-desc='More options']"),
+                "Cannot find button to open article options",
+                5);
+
+        waitForElementAndClick(
+                By.xpath("//*[@text='Add to reading list']"),
+                "Cannot find options to add article reading list",
+                5);
+
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/onboarding_button"),
+                "Cannot find 'Got it' tip overlay",
+                5);
+
+        waitForElementAndClear(
+                By.id("org.wikipedia:id/text_input"),
+                "Cannot find input to set name of articles folder",
+                5
+        );
+
+        String name_of_folder = "Learning programming";
+        waitForElementAndSendKeys(
+                By.id("org.wikipedia:id/text_input"),
+                name_of_folder,
+                "Cannot put text into articles folder input",
+                5
+        );
+
+        waitForElementAndClick(
+                By.xpath("//*[@text='OK']"),
+                "Cannot press OK button",
+                5);
+
+        waitForElementAndClick(
+                By.xpath("//android.widget.ImageButton[@content-desc='Navigate up']"),
+                "Cannot close article find X link",
+                15);
+
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find 'Search Wikipedia' input ",
+                15);
+
+        waitForElementPresent(
+                By.xpath("//*[contains(@text, 'Search Wikipedia')]"),
+                "'Search Wikipedia' is not shown",
+                15);
+
+        waitForElementAndSendKeys(
+                By.id("org.wikipedia:id/search_src_text"),
+                "Ruby",
+                "Text cannot be send",
+                15);
+
+        waitForElementAndClick(
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Ruby (programming language)']"),
+                "Cannot find 'Ruby' article",
+                15);
+
+        waitForElementPresent(
+                By.id("org.wikipedia:id/view_page_title_text"),
+                "'Ruby (programming language)' is not shown",
+                20);
+
+        waitForElementAndClick(
+                By.xpath("//android.widget.ImageView[@content-desc='More options']"),
+                "Cannot find button to open article options",
+                15);
+
+        waitForElementAndClick(
+                By.xpath("//*[@text='Add to reading list']"),
+                "Cannot find options to add article reading list",
+                15);
+
+        waitForElementAndClick(
+                By.xpath("//android.support.v7.widget.RecyclerView[@resource-id='org.wikipedia:id/list_of_lists']/android.widget.FrameLayout[@clickable='true']"),
+                "Cannot find 'Learning programming' list",
+                15);
+
+        waitForElementAndClick(
+                By.xpath("//android.widget.ImageButton[@content-desc='Navigate up']"),
+                "Cannot close article find X link",
+                15);
+
+        waitForElementAndClick(
+                By.xpath("//android.widget.FrameLayout[@content-desc='My lists']"),
+                "Cannot find navigation button to My list",
+                15);
+
+        waitForElementAndClick(
+                By.xpath("//*[@text='" + name_of_folder + "']"),
+                "Cannot find created folder",
+                15);
+
+        swipeElementToLeft(
+                By.xpath("//*[@text='Java (programming language)']"),
+                "Cannot find saved article"
+        );
+
+        waitForElementNotPresent(
+                By.xpath("//*[@text='Java (programming language)']"),
+                "Cannot delete saved article",
+                15
+        );
+
+        waitForElementPresent(
+                By.xpath("//*[@text='Ruby (programming language)']"),
+                "Cannot find article 'Ruby (programming language)'",
+                15
+        );
+    }
+
 
 
     //Ожидание появления элемента на экране
@@ -511,7 +651,7 @@ public class FirstTest {
         WebElement element = waitForElementPresent(
                 by,
                 error_message,
-                10
+                15
         );
 
         int left_x = element.getLocation().getX();
