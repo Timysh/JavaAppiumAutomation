@@ -560,6 +560,40 @@ public class FirstTest {
         );
     }
 
+    @Test
+    public void testCheckSearchArticle() {
+
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find 'Search Wikipedia' input ",
+                5);
+
+        String search_line = "Java";
+        waitForElementAndSendKeys(
+                By.id("org.wikipedia:id/search_src_text"),
+                search_line,
+                "Text cannot be send",
+                5);
+
+        waitForElementAndClick(
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']"),
+                "Cannot find 'Object-oriented programming language' topic searching by " + search_line,
+                15);
+
+        String article_title = waitForElementAndGetAttribute(
+                By.id("org.wikipedia:id/view_page_title_text"),
+                "text",
+                "Cannot find title of article",
+                15
+        );
+
+        Assert.assertEquals(
+                "Article titles do not match",
+                "Java (programming language)",
+                article_title
+        );
+    }
+
 
 
     //Ожидание появления элемента на экране
@@ -690,4 +724,11 @@ public class FirstTest {
         WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
         return element.getAttribute(attribute);
     }
+
+    //Проверка на то, что элемент присутствует в списке
+    private String assertElementPresent(By by, String attribute, String error_message, long timeoutInSeconds){
+        WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
+        return element.getAttribute(attribute);
+    }
+
 }
