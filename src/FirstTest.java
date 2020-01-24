@@ -725,10 +725,4 @@ public class FirstTest {
         return element.getAttribute(attribute);
     }
 
-    //Проверка на то, что элемент присутствует в списке
-    private String assertElementPresent(By by, String attribute, String error_message, long timeoutInSeconds){
-        WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
-        return element.getAttribute(attribute);
-    }
-
 }
