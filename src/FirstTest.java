@@ -1,14 +1,11 @@
-import io.appium.java_client.TouchAction;
 import lib.CoreTestCase;
 import lib.ui.MainPageObject;
+import lib.ui.SearchPageObject;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
@@ -22,29 +19,25 @@ public class FirstTest extends CoreTestCase {
     }
 
     @Test
+    public void testSearch()
+    {
+        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        SearchPageObject.clickSkip();
+        SearchPageObject.initSearchInput();
+        SearchPageObject.typeSearchLine("Java");
+        SearchPageObject.waitForSearchResult("Object-oriented programming language");
+    }
+
+    @Test
     public void testChanelSearch(){
 
-        MainPageObject.waitForElementAndClick(
-                By.id("org.wikipedia:id/search_container"),
-                "Cannot find 'Search Wikipedia' input",
-                5
-        );
+        SearchPageObject SearchPageObject = new SearchPageObject(driver);
 
-        MainPageObject.waitForElementAndSendKeys(
-                By.xpath("//*[contains(@text, 'Search…')]"),
-                "function",
-                "Cannot find search input",
-                5
-        );
+        SearchPageObject.initSearchInput();
+        SearchPageObject.typeSearchLine("Java");
 
-        MainPageObject.waitForElementPresent(
+        MainPageObject.waitForElementAndClear(
                 By.xpath("//android.widget.TextView[@text='Functional programming']"),
-                "Article not found",
-                5
-        );
-
-        MainPageObject.waitForElementPresent(
-                By.xpath("//android.widget.TextView[@text='Function (mathematics)']"),
                 "Article not found",
                 5
         );
@@ -60,13 +53,6 @@ public class FirstTest extends CoreTestCase {
                 "Article is still displayed",
                 15
         );
-
-        MainPageObject.waitForElementNotPresent(
-                By.xpath("//android.widget.TextView[@text='Function (mathematics)']"),
-                "Article is still displayed",
-                15
-        );
-
     }
 
     @Test
