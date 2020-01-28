@@ -9,7 +9,8 @@ public class SearchPageObject extends MainPageObject{
             SEARCH_INIT_ELEMENT = "//*[contains(@text, 'Search Wikipedia')]",
             SEARCH_INPUT = "//*[contains(@text, 'Search Wikipedia')]",
             SEARCH_RESULT_BY_SUBSTRING_TPL= "//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='{SUBSTRING}']",
-            CLICK_SKIP = "//*[contains(@text, 'SKIP')]";
+            SEARCH_CANCEL_BUTTON = "org.wikipedia:id/search_close_btn";
+
 
     /* TEMPLATES METHODS (Передаем переменную в строку {SUBSTRING})*/
     private static String getResultSearchElement(String substring) {
@@ -36,8 +37,21 @@ public class SearchPageObject extends MainPageObject{
         this.waitForElementPresent(By.xpath(search_result_xpath), "Cannot find search result with substring " + substring);
     }
 
-    public void clickSkip()
-    {
-        this.waitForElementAndClick(By.xpath(CLICK_SKIP), "Cannot find SKIP button", 15);
+    public void waitForCancelButtonToAppear() {
+        this.waitForElementPresent(By.id(SEARCH_CANCEL_BUTTON), "Cannot find search cancel button", 15);
     }
+
+    public void waitForCancelButtonToDisappear() {
+        this.waitForElementNotPresent(By.id(SEARCH_CANCEL_BUTTON), "Search cancel button is still present", 15);
+    }
+
+    public void clickCancelSearch() {
+        this.waitForElementAndClick(By.id(SEARCH_CANCEL_BUTTON), "Cannot find and click search cancel button", 15);
+    }
+
+    public void clickByArticleWithSubstring(String substring) {
+        String search_result_xpath = getResultSearchElement(substring);
+        this.waitForElementAndClick(By.xpath(search_result_xpath), "Cannot find and click search result with substring " + substring, 15);
+    }
+
 }
